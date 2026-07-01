@@ -1,1 +1,19 @@
-{}
+{
+  "17c521b0acc66432": {
+    "company": "Unknown",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 25,
+      "summary": "PENN Entertainment (casinos, sports betting, online gaming) seeks a Product Designer focused on maintaining and scaling their internal Design System called Alley-oop. Role is remote but company is North America-based."
+    },
+    "first_seen": "2026-07-01T19:32:59+00:00",
+    "id": "17c521b0acc66432",
+    "last_seen": "2026-07-01T19:32:59+00:00",
+    "location": "Remote",
+    "short_id": "17c521",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer Design Systems",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-design-systems-penn-interactive-1133499"
+  }
+}
