@@ -1,4 +1,21 @@
 {
+  "0f57d008c1d9cadc": {
+    "company": "Unknown",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "Huzzle is a B2B sales staffing platform. The actual role is Senior Webflow Designer for a U.S. digital marketing agency, building websites for Home Services and Healthcare companies."
+    },
+    "first_seen": "2026-07-01T19:48:18+00:00",
+    "id": "0f57d008c1d9cadc",
+    "last_seen": "2026-07-01T19:48:18+00:00",
+    "location": "Design",
+    "short_id": "0f57d0",
+    "source": "We Work Remotely — Design",
+    "status": "ai_scored",
+    "title": "Huzzle: Senior Webflow Designer & Developer",
+    "url": "https://weworkremotely.com/remote-jobs/huzzle-senior-webflow-designer-developer"
+  },
   "17c521b0acc66432": {
     "company": "Unknown",
     "details": {
@@ -15,5 +32,230 @@
     "status": "ai_scored",
     "title": "Product Designer Design Systems",
     "url": "https://remoteOK.com/remote-jobs/remote-product-designer-design-systems-penn-interactive-1133499"
+  },
+  "4154bdba87c9e892": {
+    "company": "Unknown",
+    "details": {
+      "best_case_study": "Gazelkin",
+      "decision": "APPLY_IMMEDIATELY",
+      "interview_chance": 82,
+      "summary": "Nevis is an AI-first wealth management platform founded by ex-Revolut execs, backed by Sequoia and ICONIQ, automating advisor workflows. They seek a Product Designer to own complex operational design end-to-end."
+    },
+    "first_seen": "2026-07-01T19:48:30+00:00",
+    "id": "4154bdba87c9e892",
+    "last_seen": "2026-07-01T19:49:14+00:00",
+    "location": "Denver, Denver, Colorado, United States",
+    "short_id": "4154bd",
+    "source": "RemoteOK — Product Designer",
+    "status": "shown",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-nevis-1132791"
+  },
+  "577028ecf825b7c4": {
+    "company": "Unknown",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 25,
+      "summary": "EY's Global Delivery Services (GDS) Poland is seeking a Service Design Consultant to work on enterprise customer experience and service design projects. Role is hybrid in Katowice (2 days on-site) with a focus on service blueprints, journey mapping, and stakeholder workshops."
+    },
+    "first_seen": "2026-07-01T19:49:05+00:00",
+    "id": "577028ecf825b7c4",
+    "last_seen": "2026-07-01T19:49:05+00:00",
+    "location": "Design",
+    "short_id": "577028",
+    "source": "We Work Remotely — Design",
+    "status": "ai_scored",
+    "title": "EY: Service Design Consultant",
+    "url": "https://weworkremotely.com/remote-jobs/ey-service-design-consultant"
+  },
+  "66245638a37e99a4": {
+    "company": "Unknown",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "Unknown company (GoCertify presumed) offering a remote Product Designer role. Listing is incomplete and lacks essential job details."
+    },
+    "first_seen": "2026-07-01T19:49:14+00:00",
+    "id": "66245638a37e99a4",
+    "last_seen": "2026-07-01T19:49:14+00:00",
+    "location": "product designer design designer",
+    "short_id": "662456",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-gocertify-1131914"
+  },
+  "71ffb9c4e5ff5acc": {
+    "company": "Design System Pleno",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 25,
+      "summary": "Lyncas (Brazil-based) is hiring a UX Designer focused on design systems, Figma, and component-driven work. The role emphasizes design system maintenance, tokens, guidelines, and collaboration with product/dev teams."
+    },
+    "first_seen": "2026-07-01T19:49:11+00:00",
+    "id": "71ffb9c4e5ff5acc",
+    "last_seen": "2026-07-01T19:49:11+00:00",
+    "location": "Design",
+    "short_id": "71ffb9",
+    "source": "We Work Remotely — Design",
+    "status": "ai_scored",
+    "title": "Lyncas: UX Designer – Design System Pleno",
+    "url": "https://weworkremotely.com/remote-jobs/lyncas-ux-designer-design-system-pleno"
+  },
+  "80848115aa5cad00": {
+    "company": "Unknown",
+    "details": {
+      "best_case_study": "Quray",
+      "decision": "APPLY_TODAY",
+      "interview_chance": 78,
+      "summary": "OpenRouter is an LLM API marketplace helping developers discover and integrate AI models. The Product Designer role spans product surfaces (dashboards, model pages) and marketing (landing pages, email), requiring hands-on execution in an AI-first workflow."
+    },
+    "first_seen": "2026-07-01T19:48:06+00:00",
+    "id": "80848115aa5cad00",
+    "last_seen": "2026-07-01T19:49:14+00:00",
+    "location": "product designer designer product",
+    "short_id": "808481",
+    "source": "RemoteOK — Product Designer",
+    "status": "shown",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-openrouter-1130894"
+  },
+  "8ab12f64fd7b569e": {
+    "company": "Unknown",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "Cint is a SaaS market research platform seeking a Senior Product Designer for their product suite. Role involves UX strategy, design systems, user testing, and cross-functional collaboration."
+    },
+    "first_seen": "2026-07-01T19:48:14+00:00",
+    "id": "8ab12f64fd7b569e",
+    "last_seen": "2026-07-01T19:48:14+00:00",
+    "location": "London, London, England, United Kingdom",
+    "short_id": "8ab12f",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-cint-1131922"
+  },
+  "af8389ddf59477f6": {
+    "company": "Unknown",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "Butter is a social platform for friend groups to create and play custom mini-apps, founded by ex-Airbnb/Instagram/Snap staff. They're seeking a Product Designer for early-stage work with high ownership and ambiguity."
+    },
+    "first_seen": "2026-07-01T19:48:52+00:00",
+    "id": "af8389ddf59477f6",
+    "last_seen": "2026-07-01T19:48:52+00:00",
+    "location": "San Francisco Bay Area",
+    "short_id": "af8389",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-butter-1133097"
+  },
+  "e936296ebf9a2160": {
+    "company": "Unknown",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "Fluxon is a strategy/design/engineering agency founded by ex-Googlers, partnering with ambitious tech companies like OpenAI and Stripe. They're hiring a Senior Product Designer for a fully remote North America role."
+    },
+    "first_seen": "2026-07-01T19:48:56+00:00",
+    "id": "e936296ebf9a2160",
+    "last_seen": "2026-07-01T19:48:56+00:00",
+    "location": "United States",
+    "short_id": "e93629",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Senior Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-senior-product-designer-fluxon-1131196"
+  },
+  "ea712d85760e66d6": {
+    "company": "Unknown",
+    "details": {
+      "best_case_study": "Quray",
+      "decision": "APPLY_TODAY",
+      "interview_chance": 72,
+      "summary": "Kiefer Tech builds sovereign AI infrastructure and enterprise solutions for the EU, with NVIDIA partnership. Role is Senior Product Designer across multiple AI product streams, hands-on UX/UI work with product and engineering teams."
+    },
+    "first_seen": "2026-07-01T19:48:41+00:00",
+    "id": "ea712d85760e66d6",
+    "last_seen": "2026-07-01T19:49:14+00:00",
+    "location": "Athens",
+    "short_id": "ea712d",
+    "source": "RemoteOK — Product Designer",
+    "status": "shown",
+    "title": "Senior Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-senior-product-designer-kiefer-1131074"
+  },
+  "eb54ca600b183db9": {
+    "company": "Unknown",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "Heidi is a healthcare software platform helping clinicians spend less time on keyboards and more time with patients. The role is a hands-on Product Designer focused on pixel-perfect, detail-oriented work with direct engineer collaboration."
+    },
+    "first_seen": "2026-07-01T19:48:35+00:00",
+    "id": "eb54ca600b183db9",
+    "last_seen": "2026-07-01T19:48:35+00:00",
+    "location": "Sydney, Sydney, New South Wales, Australia",
+    "short_id": "eb54ca",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-heidi-1132448"
+  },
+  "eea79b4c1a6cfbfc": {
+    "company": "Unknown",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "BJAK is a Southeast Asian fintech/insurance platform offering remote-friendly work from London. The role is a Product Designer leading design across high-impact financial products."
+    },
+    "first_seen": "2026-07-01T19:48:24+00:00",
+    "id": "eea79b4c1a6cfbfc",
+    "last_seen": "2026-07-01T19:48:24+00:00",
+    "location": "London",
+    "short_id": "eea79b",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-bjak-1131156"
+  },
+  "f0bbe26282c902ac": {
+    "company": "Unknown",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "South Geeks is a Latin American software engineer staffing firm. The role is Product Designer for a US government tech platform modernizing municipal operations (permitting, inspections, reporting)."
+    },
+    "first_seen": "2026-07-01T19:48:10+00:00",
+    "id": "f0bbe26282c902ac",
+    "last_seen": "2026-07-01T19:48:10+00:00",
+    "location": "Wyoming",
+    "short_id": "f0bbe2",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-south-geeks-1132403"
+  },
+  "f880025180d064e8": {
+    "company": "Unknown",
+    "details": {
+      "best_case_study": "Dreamkas",
+      "decision": "APPLY_TODAY",
+      "interview_chance": 78,
+      "summary": "Sharebite is a meal benefits platform for corporate employee dining with social impact (food donations). The role is a hands-on Product Designer owning end-to-end feature design from concept to pixel-perfect handoff."
+    },
+    "first_seen": "2026-07-01T19:49:00+00:00",
+    "id": "f880025180d064e8",
+    "last_seen": "2026-07-01T19:49:14+00:00",
+    "location": "Remote",
+    "short_id": "f88002",
+    "source": "RemoteOK — Product Designer",
+    "status": "shown",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-sharebite-1131049"
   }
 }
