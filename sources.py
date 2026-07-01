@@ -44,6 +44,28 @@ RSS_SOURCES = [
 ]
 
 
+def safe_text(value: Any) -> str:
+    """Normalize RSS/API values that may be strings, dicts, or lists."""
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        return normalize_text(value)
+    if isinstance(value, list):
+        parts: List[str] = []
+        for item in value:
+            if isinstance(item, str):
+                parts.append(item)
+            elif isinstance(item, dict):
+                # RSS tags often look like {"term": "..."}.
+                parts.append(str(item.get("term") or item.get("name") or item.get("label") or ""))
+            else:
+                parts.append(str(item))
+        return normalize_text(" ".join(p for p in parts if p))
+    if isinstance(value, dict):
+        return normalize_text(str(value.get("term") or value.get("name") or value.get("label") or value))
+    return normalize_text(str(value))
+
+
 def _company_from_title(title: str) -> str:
     # RSS feeds use inconsistent title formats. Keep this conservative.
     for sep in [" at ", " @ ", " – ", " - "]:
@@ -64,17 +86,22 @@ async def fetch_rss_jobs() -> List[Job]:
             feed = feedparser.parse(source["url"])
             logger.info("RSS %s: %s entries", source["name"], len(feed.entries))
             for entry in feed.entries[:MAX_ITEMS_PER_RSS_SOURCE]:
-                title = normalize_text(entry.get("title", ""))
+                title = safe_text(entry.get("title", ""))
                 if not title:
                     continue
+
+                summary = entry.get("summary", "") or entry.get("description", "")
+                tags = entry.get("tags", "")
+                location = entry.get("location", "") or entry.get("where", "") or tags
+
                 jobs.append(
                     Job(
                         source=source["name"],
                         title=title,
                         company=_company_from_title(title),
-                        url=entry.get("link", ""),
-                        description=normalize_text(entry.get("summary", "") or entry.get("description", "")),
-                        location=normalize_text(entry.get("location", "") or entry.get("tags", "")),
+                        url=safe_text(entry.get("link", "")),
+                        description=safe_text(summary),
+                        location=safe_text(location),
                         raw=dict(entry),
                     )
                 )
@@ -106,18 +133,18 @@ async def fetch_greenhouse_board(client: httpx.AsyncClient, company: str, slug: 
             jobs = []
             for item in data.get("jobs", [])[:MAX_ITEMS_PER_ATS_BOARD]:
                 offices = item.get("offices", []) or []
-                location = ", ".join(o.get("name", "") for o in offices if o.get("name"))
+                location = ", ".join(safe_text(o.get("name", "")) for o in offices if o.get("name"))
                 departments = item.get("departments", []) or []
-                department = ", ".join(d.get("name", "") for d in departments if d.get("name"))
+                department = ", ".join(safe_text(d.get("name", "")) for d in departments if d.get("name"))
                 jobs.append(
                     Job(
                         source="Greenhouse",
                         company=company,
-                        title=normalize_text(item.get("title", "")),
-                        url=item.get("absolute_url", url),
-                        description=normalize_text(item.get("content", "")),
-                        location=normalize_text(location),
-                        department=normalize_text(department),
+                        title=safe_text(item.get("title", "")),
+                        url=safe_text(item.get("absolute_url", url)),
+                        description=safe_text(item.get("content", "")),
+                        location=safe_text(location),
+                        department=safe_text(department),
                         raw=item,
                     )
                 )
@@ -141,20 +168,20 @@ async def fetch_lever_board(client: httpx.AsyncClient, company: str, slug: str) 
         jobs = []
         for item in data[:MAX_ITEMS_PER_ATS_BOARD]:
             categories = item.get("categories", {}) or {}
-            location = normalize_text(categories.get("location", ""))
-            commitment = normalize_text(categories.get("commitment", ""))
-            team = normalize_text(categories.get("team", ""))
+            location = safe_text(categories.get("location", ""))
+            commitment = safe_text(categories.get("commitment", ""))
+            team = safe_text(categories.get("team", ""))
             desc = "\n".join([
-                item.get("descriptionPlain", "") or item.get("description", ""),
-                item.get("additionalPlain", "") or item.get("additional", ""),
+                safe_text(item.get("descriptionPlain", "") or item.get("description", "")),
+                safe_text(item.get("additionalPlain", "") or item.get("additional", "")),
             ])
             jobs.append(
                 Job(
                     source="Lever",
                     company=company,
-                    title=normalize_text(item.get("text", "")),
-                    url=item.get("hostedUrl", item.get("applyUrl", url)),
-                    description=normalize_text(desc),
+                    title=safe_text(item.get("text", "")),
+                    url=safe_text(item.get("hostedUrl", item.get("applyUrl", url))),
+                    description=safe_text(desc),
                     location=location or commitment,
                     department=team,
                     raw=item,
@@ -188,11 +215,11 @@ async def fetch_ashby_board(client: httpx.AsyncClient, company: str, slug: str) 
                 Job(
                     source="Ashby",
                     company=company,
-                    title=normalize_text(title),
-                    url=job_url,
-                    description=normalize_text(description),
-                    location=normalize_text(str(location)),
-                    department=normalize_text(str(department)),
+                    title=safe_text(title),
+                    url=safe_text(job_url),
+                    description=safe_text(description),
+                    location=safe_text(location),
+                    department=safe_text(department),
                     raw=item,
                 )
             )
