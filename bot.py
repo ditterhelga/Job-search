@@ -37,9 +37,7 @@ def sort_scored(scored: List[ScoredJob]) -> List[ScoredJob]:
 async def main() -> None:
     storage = Storage()
 
-    # Process feedback from previous Telegram replies first.
     await ingest_feedback(storage)
-
     all_jobs = await fetch_all_jobs()
 
     stats: Dict[str, int] = {
@@ -65,20 +63,6 @@ async def main() -> None:
         if not decision.should_analyze:
             stats["local_skipped"] += 1
             logger.info("Local skip: %s — %s", job.title[:90], decision.reason)
-
-            if stats["local_skipped"] <= 80:
-                logger.info(
-                    "DEBUG local skip #%s | source=%s | title=%s | reason=%s | url=%s",
-                    stats["local_skipped"],
-                    job.source,
-                    job.title[:120],
-                    decision.reason,
-                    job.url,
-                )
-
-            # Do NOT mark local skips as seen.
-            # Local filters are tuned often, so skipped jobs must be allowed
-            # to re-enter the pipeline after filter changes.
             continue
 
         stats["local_passed"] += 1
@@ -105,7 +89,6 @@ async def main() -> None:
                 stats["ai_skipped"] += 1
         except Exception as exc:
             logger.exception("AI failed for %s: %s", job.title, exc)
-            # Do not mark as seen on AI failure, so it can be retried later.
 
     scored = sort_scored(scored)[:MAX_RESULTS_TO_SEND]
     for item in scored:
