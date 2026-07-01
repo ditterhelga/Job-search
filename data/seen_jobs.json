@@ -1891,6 +1891,21 @@
     "title": "Forward Deployed Engineer, GTM - Japan",
     "url": "https://jobs.ashbyhq.com/notion/4bc0802c-b5e0-411c-be01-daaea2bc3ae0"
   },
+  "be1e864c7866d5f4": {
+    "company": "GitLab",
+    "details": {
+      "reason": "title hard skip: \\bmanager\\b"
+    },
+    "first_seen": "2026-07-01T17:38:59+00:00",
+    "id": "be1e864c7866d5f4",
+    "last_seen": "2026-07-01T17:38:59+00:00",
+    "location": "Singapore, United States of America",
+    "short_id": "be1e86",
+    "source": "Greenhouse",
+    "status": "local_skip",
+    "title": "Incentive Compensation Manager",
+    "url": "https://job-boards.greenhouse.io/gitlab/jobs/8614942002"
+  },
   "c2260d8213b55440": {
     "company": "Linear",
     "details": {
