@@ -64,8 +64,6 @@ async def main() -> None:
 
         if not decision.should_analyze:
             stats["local_skipped"] += 1
-            storage.mark_seen(job, "local_skip", {"reason": decision.reason})
-
             logger.info("Local skip: %s — %s", job.title[:90], decision.reason)
 
             if stats["local_skipped"] <= 80:
@@ -78,6 +76,9 @@ async def main() -> None:
                     job.url,
                 )
 
+            # Do NOT mark local skips as seen.
+            # Local filters are tuned often, so skipped jobs must be allowed
+            # to re-enter the pipeline after filter changes.
             continue
 
         stats["local_passed"] += 1
