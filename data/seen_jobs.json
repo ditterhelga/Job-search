@@ -1,4 +1,38 @@
 {
+  "00daef91bfa344a1": {
+    "company": "Heidi",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 25,
+      "summary": "Heidi is a healthcare software platform helping clinicians spend less time on keyboards and more with patients. They're seeking a product designer who owns features end-to-end with strong craft focus and AI tool integration."
+    },
+    "first_seen": "2026-07-01T19:59:54+00:00",
+    "id": "00daef91bfa344a1",
+    "last_seen": "2026-07-01T19:59:54+00:00",
+    "location": "Sydney, Sydney, New South Wales, Australia",
+    "short_id": "00daef",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-heidi-1132448"
+  },
+  "0f21df6aa58a6e76": {
+    "company": "South Geeks",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "South Geeks is a Latin American talent placement firm partnering their engineers with a US government management software company. The role is a Product Designer embedded with the client, covering full-cycle design for a municipal permitting/inspections platform."
+    },
+    "first_seen": "2026-07-01T19:59:33+00:00",
+    "id": "0f21df6aa58a6e76",
+    "last_seen": "2026-07-01T19:59:33+00:00",
+    "location": "Wyoming",
+    "short_id": "0f21df",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-south-geeks-1132403"
+  },
   "0f57d008c1d9cadc": {
     "company": "Unknown",
     "details": {
@@ -33,6 +67,41 @@
     "title": "Product Designer Design Systems",
     "url": "https://remoteOK.com/remote-jobs/remote-product-designer-design-systems-penn-interactive-1133499"
   },
+  "1b35f5dbbd8e91c2": {
+    "company": "Kiefer",
+    "details": {
+      "best_case_study": "Quray",
+      "decision": "APPLY_TODAY",
+      "interview_chance": 72,
+      "summary": "Kiefer Tech is a Greek AI/robotics company building sovereign EU AI infrastructure and LLMs. The role is Senior Product Designer supporting multiple AI product streams with hands-on UX/UI design and component library work."
+    },
+    "first_seen": "2026-07-01T20:00:02+00:00",
+    "id": "1b35f5dbbd8e91c2",
+    "last_seen": "2026-07-01T20:00:32+00:00",
+    "location": "Athens",
+    "short_id": "1b35f5",
+    "source": "RemoteOK — Product Designer",
+    "status": "shown",
+    "title": "Senior Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-senior-product-designer-kiefer-1131074"
+  },
+  "40346ee09789824b": {
+    "company": "Ai Application 0G Labs",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 25,
+      "summary": "0G Labs is building AI-native products and agent interfaces. They want a UX/UI Designer with 2–6 years of experience and demonstrated work on AI products."
+    },
+    "first_seen": "2026-07-01T20:00:07+00:00",
+    "id": "40346ee09789824b",
+    "last_seen": "2026-07-01T20:00:07+00:00",
+    "location": "ai design designer",
+    "short_id": "40346e",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "UX UI Designer — AI Application",
+    "url": "https://remoteOK.com/remote-jobs/remote-ux-ui-designer-ai-application-0g-labs-1131295"
+  },
   "4154bdba87c9e892": {
     "company": "Unknown",
     "details": {
@@ -50,6 +119,74 @@
     "status": "shown",
     "title": "Product Designer",
     "url": "https://remoteOK.com/remote-jobs/remote-product-designer-nevis-1132791"
+  },
+  "4543e6b3d41b64b7": {
+    "company": "Cint",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 25,
+      "summary": "Cint is a SaaS insights platform. They are seeking a Senior Product Designer for strategic, cross-functional design work across their product suite."
+    },
+    "first_seen": "2026-07-01T19:59:38+00:00",
+    "id": "4543e6b3d41b64b7",
+    "last_seen": "2026-07-01T19:59:38+00:00",
+    "location": "London, London, England, United Kingdom",
+    "short_id": "4543e6",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-cint-1131922"
+  },
+  "45bbf5b9af64028b": {
+    "company": "Gocertify",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "Gocertify appears to be a UK-based remote role reporting to Head of Product. The listing is incomplete and lacks essential details about the company, product, and specific responsibilities."
+    },
+    "first_seen": "2026-07-01T20:00:29+00:00",
+    "id": "45bbf5b9af64028b",
+    "last_seen": "2026-07-01T20:00:29+00:00",
+    "location": "product designer design designer",
+    "short_id": "45bbf5",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-gocertify-1131914"
+  },
+  "4aba824445b9b5de": {
+    "company": "Fluxon",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "Fluxon is a design/strategy/engineering consultancy founded by ex-Googlers, working with major tech clients on AI-driven products. The Senior Product Designer role is a strategic, client-facing position within a consulting firm."
+    },
+    "first_seen": "2026-07-01T20:00:16+00:00",
+    "id": "4aba824445b9b5de",
+    "last_seen": "2026-07-01T20:00:16+00:00",
+    "location": "United States",
+    "short_id": "4aba82",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Senior Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-senior-product-designer-fluxon-1131196"
+  },
+  "5684e998e94cfced": {
+    "company": "Design Systems Penn Interactive",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 25,
+      "summary": "PENN Entertainment (casinos, sports betting, gaming) seeks a Product Designer to own and scale their internal design system 'Alley-oop'. The role is remote but US-based company, likely requiring US presence or timezone alignment."
+    },
+    "first_seen": "2026-07-01T20:00:26+00:00",
+    "id": "5684e998e94cfced",
+    "last_seen": "2026-07-01T20:00:26+00:00",
+    "location": "Remote",
+    "short_id": "5684e9",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer Design Systems",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-design-systems-penn-interactive-1133499"
   },
   "577028ecf825b7c4": {
     "company": "Unknown",
@@ -137,6 +274,23 @@
     "title": "Product Designer",
     "url": "https://remoteOK.com/remote-jobs/remote-product-designer-cint-1131922"
   },
+  "97e5a6a9286a037e": {
+    "company": "Designmeshai",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "Designmeshai is a UK-based company seeking a Product Designer/UX Expert to create mockups and apply design expertise. The role is listed as remote but with UK location restriction."
+    },
+    "first_seen": "2026-07-01T20:00:32+00:00",
+    "id": "97e5a6a9286a037e",
+    "last_seen": "2026-07-01T20:00:32+00:00",
+    "location": "United Kingdom,",
+    "short_id": "97e5a6",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-designmeshai-1132393"
+  },
   "af8389ddf59477f6": {
     "company": "Unknown",
     "details": {
@@ -154,6 +308,76 @@
     "title": "Product Designer",
     "url": "https://remoteOK.com/remote-jobs/remote-product-designer-butter-1133097"
   },
+  "c415b1d6fb4f5a31": {
+    "company": "Nevis",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "Nevis is an AI-first wealth management platform for financial advisors, backed by Sequoia. They're hiring a Product Designer to own complex operational workflows."
+    },
+    "first_seen": "2026-07-01T19:59:47+00:00",
+    "id": "c415b1d6fb4f5a31",
+    "last_seen": "2026-07-01T19:59:47+00:00",
+    "location": "Denver, Denver, Colorado, United States",
+    "short_id": "c415b1",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-nevis-1132791"
+  },
+  "c4ae43621c30b493": {
+    "company": "Butter",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 15,
+      "summary": "Butter is an early-stage social app for friend groups to create and play mini-apps together, founded by ex-Airbnb/Instagram/Snap engineers. They seek a Product Designer for hybrid/remote work in San Francisco to shape foundational product experiences."
+    },
+    "first_seen": "2026-07-01T20:00:12+00:00",
+    "id": "c4ae43621c30b493",
+    "last_seen": "2026-07-01T20:00:12+00:00",
+    "location": "San Francisco Bay Area",
+    "short_id": "c4ae43",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-butter-1133097"
+  },
+  "ca2b1122f50d9a05": {
+    "company": "Openrouter",
+    "details": {
+      "best_case_study": "Quray",
+      "decision": "APPLY_IMMEDIATELY",
+      "interview_chance": 82,
+      "summary": "OpenRouter is an AI LLM marketplace providing unified API access. The Product Designer role spans core product (dashboards, model discovery, API onboarding) and marketing surfaces, requiring hands-on shipping in an AI-first workflow."
+    },
+    "first_seen": "2026-07-01T19:59:27+00:00",
+    "id": "ca2b1122f50d9a05",
+    "last_seen": "2026-07-01T20:00:32+00:00",
+    "location": "product designer designer product",
+    "short_id": "ca2b11",
+    "source": "RemoteOK — Product Designer",
+    "status": "shown",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-openrouter-1130894"
+  },
+  "d045918172c1c22e": {
+    "company": "Sharebite",
+    "details": {
+      "best_case_study": "Dreamkas",
+      "decision": "APPLY_TODAY",
+      "interview_chance": 78,
+      "summary": "Sharebite is a meal benefits platform for corporate employee feeding with donation impact. The role is a hands-on Product Designer owning end-to-end feature design, prototyping, and cross-functional collaboration."
+    },
+    "first_seen": "2026-07-01T20:00:20+00:00",
+    "id": "d045918172c1c22e",
+    "last_seen": "2026-07-01T20:00:32+00:00",
+    "location": "Remote",
+    "short_id": "d04591",
+    "source": "RemoteOK — Product Designer",
+    "status": "shown",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-sharebite-1131049"
+  },
   "e936296ebf9a2160": {
     "company": "Unknown",
     "details": {
@@ -170,6 +394,23 @@
     "status": "ai_scored",
     "title": "Senior Product Designer",
     "url": "https://remoteOK.com/remote-jobs/remote-senior-product-designer-fluxon-1131196"
+  },
+  "ea5faeeda10edc49": {
+    "company": "Bjak",
+    "details": {
+      "decision": "SKIP",
+      "interview_chance": 25,
+      "summary": "BJAK is Southeast Asia's largest digital insurance and financial services platform. They're hiring a Product Designer to lead design across high-impact product areas for web and mobile."
+    },
+    "first_seen": "2026-07-01T19:59:42+00:00",
+    "id": "ea5faeeda10edc49",
+    "last_seen": "2026-07-01T19:59:42+00:00",
+    "location": "London",
+    "short_id": "ea5fae",
+    "source": "RemoteOK — Product Designer",
+    "status": "ai_scored",
+    "title": "Product Designer",
+    "url": "https://remoteOK.com/remote-jobs/remote-product-designer-bjak-1131156"
   },
   "ea712d85760e66d6": {
     "company": "Unknown",
