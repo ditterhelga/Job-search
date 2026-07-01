@@ -3,6 +3,9 @@ name: Job search bot
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   check-jobs:
     runs-on: ubuntu-latest
@@ -27,3 +30,15 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           python bot.py
+
+      - name: Commit updated bot data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/seen_jobs.json data/feedback.json data/telegram_offset.json
+          if git diff --cached --quiet; then
+            echo "No data changes to commit"
+          else
+            git commit -m "Update job bot data"
+            git push
+          fi
