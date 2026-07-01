@@ -9,21 +9,23 @@ from typing import Dict, List, Optional, Set, Tuple
 import feedparser
 import httpx
 from telegram import Bot
-from telegram.constants import ParseMode
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
 TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
 
 SEEN_FILE = "seen_jobs.json"
 
-# Hard safety limits. Change carefully.
-MAX_AI_ANALYSIS_PER_RUN = int(os.environ.get("MAX_AI_ANALYSIS_PER_RUN", "10"))
-MAX_TELEGRAM_MESSAGES_PER_RUN = int(os.environ.get("MAX_TELEGRAM_MESSAGES_PER_RUN", "5"))
-MAX_ITEMS_PER_SOURCE = int(os.environ.get("MAX_ITEMS_PER_SOURCE", "25"))
+# Strict safety limits. Keep low while tuning.
+MAX_AI_ANALYSIS_PER_RUN = int(os.environ.get("MAX_AI_ANALYSIS_PER_RUN", "6"))
+MAX_TELEGRAM_MESSAGES_PER_RUN = int(os.environ.get("MAX_TELEGRAM_MESSAGES_PER_RUN", "3"))
+MAX_ITEMS_PER_SOURCE = int(os.environ.get("MAX_ITEMS_PER_SOURCE", "20"))
+
+# Only these verdicts will be sent.
+SEND_VERDICTS = {"STRONG"}
 
 RSS_SOURCES = [
     {
@@ -40,60 +42,71 @@ RSS_SOURCES = [
     },
 ]
 
-# Things Olga definitely does NOT want.
+# Hard title rejects before AI. Maximum seniority is Senior.
 TITLE_SKIP_PATTERNS = [
     r"\bintern\b", r"\binternship\b", r"\bgraduate\b", r"\bstudent\b", r"\bjunior\b",
-    r"\blead\b", r"\bstaff\b", r"\bprincipal\b", r"\bhead of\b", r"\bmanager\b",
-    r"\bdesign manager\b", r"\bproduct design manager\b", r"\bux lead\b", r"\bdesign lead\b",
+    r"\blead\b", r"\bstaff\b", r"\bprincipal\b", r"\bhead\b", r"\bmanager\b", r"\bdirector\b",
+    r"\bvp\b", r"\bchief\b", r"\bowner\b",
     r"\bgraphic designer\b", r"\bbrand designer\b", r"\bmarketing designer\b", r"\bvisual designer\b",
     r"\bweb designer\b", r"\bmotion designer\b", r"\billustrator\b", r"\bcontent designer\b",
-    r"\bui artist\b", r"\bgame ui\b",
+    r"\bui artist\b", r"\bgame ui\b", r"\bcreative designer\b",
 ]
 
+# Hard content rejects before AI.
 TEXT_SKIP_PATTERNS = [
     r"\bdutch required\b", r"\bfluent dutch\b", r"\bnative dutch\b", r"\bdutch speaking\b",
-    r"\bgerman required\b", r"\bfluent german\b", r"\bnative german\b",
-    r"\bus only\b", r"\bunited states only\b", r"\bcanada only\b",
+    r"\bgerman required\b", r"\bfluent german\b", r"\bnative german\b", r"\bgerman speaking\b",
+    r"\bus only\b", r"\bunited states only\b", r"\bcanada only\b", r"\bnorth america only\b",
+    r"\bmust be based in the us\b", r"\bmust be based in united states\b",
 ]
 
-# Must have at least one of these to be worth AI analysis.
-RELEVANT_PATTERNS = [
+# The role itself must match one of these. Do not analyze random product/PM/design roles.
+RELEVANT_TITLE_PATTERNS = [
     r"\bproduct designer\b",
+    r"\bsenior product designer\b",
     r"\bux designer\b",
+    r"\bsenior ux designer\b",
     r"\bux/ui designer\b",
     r"\bui/ux designer\b",
     r"\binteraction designer\b",
     r"\bdigital product designer\b",
-    r"\bproduct design\b",
-    r"\buser experience\b",
+    r"\bproduct design(er)? ii\b",
 ]
 
-# Helpful context words, used only for local scoring/logging.
-BOOST_PATTERNS = [
+# Strong-fit product context. Without at least one, the role is probably too generic.
+STRONG_CONTEXT_PATTERNS = [
     r"\bb2b\b", r"\bsaas\b", r"\bplatform\b", r"\bdashboard\b", r"\badmin\b",
-    r"\binternal tools?\b", r"\benterprise\b", r"\bworkflow\b", r"\bfintech\b",
-    r"\bpayments?\b", r"\blogistics?\b", r"\boperations?\b", r"\bmarketplace\b",
-    r"\bdesign systems?\b", r"\bnetherlands\b", r"\bamsterdam\b", r"\beurope\b", r"\beu\b",
+    r"\binternal tools?\b", r"\benterprise\b", r"\bworkflow\b", r"\bworkflows\b",
+    r"\bfintech\b", r"\bpayments?\b", r"\blogistics?\b", r"\boperations?\b",
+    r"\bmarketplace\b", r"\bdesign systems?\b", r"\bautomation\b", r"\bcomplex\b",
 ]
 
-SYSTEM_PROMPT = """You are a careful job-fit filter for Olga, a Product Designer returning to product work after a career break.
+# Helpful location/context. Not required before AI, but boosts priority.
+LOCATION_CONTEXT_PATTERNS = [
+    r"\bnetherlands\b", r"\bamsterdam\b", r"\beurope\b", r"\beu\b", r"\bemea\b", r"\bremote worldwide\b", r"\bworldwide\b",
+]
+
+SYSTEM_PROMPT = """You are a strict job-fit filter for Olga, a Product Designer returning to product work after a career break.
 
 Olga's profile:
 - 10+ years in product/UX design.
 - Strongest fit: complex operational systems, POS, logistics, fintech/payments, B2B SaaS, enterprise tools, dashboards, internal platforms, workflows.
 - Based in Amsterdam, Netherlands. EU work authorization.
 - English-speaking roles only. Minimal Dutch.
-- She is open to Product Designer, UX Designer, UX/UI Designer, Digital Product Designer, Interaction Designer.
+- Suitable roles: Product Designer, UX Designer, UX/UI Designer, Digital Product Designer, Interaction Designer.
 - Suitable seniority: mid-level, medior, Product Designer II, Senior Product Designer, Senior UX Designer.
-- Maximum seniority: Senior.
+- Maximum seniority: Senior. Anything above Senior is not suitable.
 
-Reject / SKIP:
-- Junior, intern, graduate, student roles.
-- Lead, Staff, Principal, Head of Design, Design Manager, Product Design Manager, UX Lead, Design Lead.
+Hard SKIP:
+- Junior, intern, graduate, student.
+- Lead, Staff, Principal, Head of Design, Design Manager, Product Design Manager, UX Lead, Design Lead, Director, VP.
 - Graphic design, brand design, marketing design, visual-only, web-only, motion, illustration, content design.
 - Roles requiring Dutch or German.
-- US-only or Canada-only roles.
-- Purely consumer/mobile/social/content apps with no product complexity.
+- US-only, Canada-only, North-America-only, or unclear remote location when Europe/Netherlands is not allowed.
+- Product roles that include heavy brand, marketing, landing pages, growth marketing, social media, ads, or visual content.
+- Purely consumer/mobile/social/content apps with no complex product workflows.
+
+Be strict. Do not send roles just because the title says Product Designer.
 
 Return ONLY valid JSON. No markdown. No explanation.
 
@@ -105,10 +118,10 @@ Schema:
 }
 
 Guidance:
-- STRONG: product/UX role, mid-to-senior but not lead, English likely ok, Netherlands/Europe/remote Europe, B2B/SaaS/platform/internal tools/fintech/payments/logistics/operations/complex workflows.
-- MEDIUM: relevant product/UX role, location and seniority acceptable, but domain fit is uncertain or only partly aligned.
-- WEAK: product/UX role but mostly consumer, agency, too UI-focused, or little evidence of complex workflows.
-- SKIP: any hard rejection above.
+- STRONG only if it is clearly a realistic fit: Product/UX role, not above Senior, English likely OK, Netherlands/Europe/remote Europe/worldwide allowed, and strong domain match: B2B/SaaS/platform/internal tools/fintech/payments/logistics/operations/complex workflows.
+- MEDIUM if relevant but uncertain. MEDIUM will not be sent to Olga.
+- WEAK if mostly consumer, agency, UI-focused, marketing-heavy, or little evidence of complex workflows.
+- SKIP for any hard rejection.
 """
 
 
@@ -126,8 +139,12 @@ def matches_any(text: str, patterns: List[str]) -> Optional[str]:
     return None
 
 
+def count_matches(text: str, patterns: List[str]) -> int:
+    low = text.lower()
+    return sum(1 for pattern in patterns if re.search(pattern, low))
+
+
 def local_filter(title: str, description: str) -> Tuple[bool, str, int]:
-    """Return (should_send_to_ai, reason, boost_score)."""
     title_clean = normalize_text(title)
     desc_clean = normalize_text(description)
     title_low = title_clean.lower()
@@ -141,12 +158,19 @@ def local_filter(title: str, description: str) -> Tuple[bool, str, int]:
     if text_skip:
         return False, f"text skip: {text_skip}", 0
 
-    relevant = matches_any(all_text, RELEVANT_PATTERNS)
-    if not relevant:
-        return False, "no relevant product/UX keywords", 0
+    relevant_title = matches_any(title_low, RELEVANT_TITLE_PATTERNS)
+    if not relevant_title:
+        return False, "title is not a Product/UX Designer role", 0
 
-    boost_score = sum(1 for pattern in BOOST_PATTERNS if re.search(pattern, all_text))
-    return True, "passed local filter", boost_score
+    strong_context = count_matches(all_text, STRONG_CONTEXT_PATTERNS)
+    location_context = count_matches(all_text, LOCATION_CONTEXT_PATTERNS)
+
+    # Avoid wasting Claude on very generic product designer posts with no signal.
+    if strong_context == 0:
+        return False, "no strong domain/workflow signal", 0
+
+    score = strong_context * 2 + location_context
+    return True, "passed strict local filter", score
 
 
 def load_seen() -> Set[str]:
@@ -183,14 +207,7 @@ def extract_json(text: str) -> Dict:
 
 
 async def analyze_job(title: str, description: str, link: str) -> Dict:
-    if not ANTHROPIC_API_KEY:
-        return {
-            "verdict": "MEDIUM",
-            "reason": "Passed local filter; AI analysis is disabled.",
-            "flags": ["Local filter", "Needs review"],
-        }
-
-    content = f"Title: {title}\nURL: {link}\n\nDescription:\n{description[:2500]}"
+    content = f"Title: {title}\nURL: {link}\n\nDescription:\n{description[:2200]}"
 
     async with httpx.AsyncClient(timeout=30) as client:
         response = await client.post(
@@ -202,7 +219,7 @@ async def analyze_job(title: str, description: str, link: str) -> Dict:
             },
             json={
                 "model": "claude-haiku-4-5-20251001",
-                "max_tokens": 220,
+                "max_tokens": 180,
                 "system": SYSTEM_PROMPT,
                 "messages": [{"role": "user", "content": content}],
             },
@@ -213,27 +230,26 @@ async def analyze_job(title: str, description: str, link: str) -> Dict:
         return extract_json(text)
 
 
-def safe_markdown(text: str) -> str:
-    # Telegram Markdown is fragile. Keep it simple by removing characters that commonly break formatting.
+def clean_text(text: str) -> str:
     return (text or "").replace("*", "").replace("_", " ").strip()
 
 
 def format_message(entry, analysis: Dict, source_name: str) -> str:
-    verdict = analysis.get("verdict", "MEDIUM")
+    verdict = analysis.get("verdict", "STRONG")
     emoji = {"STRONG": "🟢", "MEDIUM": "🟡", "WEAK": "🔴"}.get(verdict, "")
 
-    title = safe_markdown(entry.get("title", "No title"))
+    title = clean_text(entry.get("title", "No title"))
     link = entry.get("link", "")
-    reason = safe_markdown(analysis.get("reason", ""))
-    flags = [safe_markdown(f) for f in analysis.get("flags", [])[:4]]
+    reason = clean_text(analysis.get("reason", ""))
+    flags = [clean_text(f) for f in analysis.get("flags", [])[:4]]
     flags_text = "\n".join(f"• {f}" for f in flags if f)
 
     return (
-        f"{emoji} *{verdict}* — {title}\n"
-        f"📍 {safe_markdown(source_name)}\n"
-        f"_{reason}_\n"
+        f"{emoji} {verdict} — {title}\n"
+        f"📍 {clean_text(source_name)}\n"
+        f"{reason}\n"
         f"{flags_text}\n"
-        f"[Open job]({link})"
+        f"Open job: {link}"
     )
 
 
@@ -262,21 +278,20 @@ async def check_feeds() -> None:
 
                 title = normalize_text(entry.get("title", ""))
                 description = normalize_text(entry.get("summary", "") or entry.get("description", ""))
-                should_analyze, reason, boost_score = local_filter(title, description)
+                should_analyze, reason, score = local_filter(title, description)
 
                 if not should_analyze:
                     local_skip_count += 1
                     newly_seen.add(jid)
-                    logger.info(f"Local SKIP: {title[:80]} — {reason}")
+                    logger.info(f"Local SKIP: {title[:90]} — {reason}")
                     continue
 
                 local_pass_count += 1
-                candidates.append((boost_score, entry, jid, title, description))
+                candidates.append((score, entry, jid, title, description))
 
-            # Analyze better-looking candidates first.
             candidates.sort(key=lambda item: item[0], reverse=True)
 
-            for boost_score, entry, jid, title, description in candidates:
+            for score, entry, jid, title, description in candidates:
                 if sent_count >= MAX_TELEGRAM_MESSAGES_PER_RUN:
                     break
                 if ai_count >= MAX_AI_ANALYSIS_PER_RUN:
@@ -293,16 +308,15 @@ async def check_feeds() -> None:
                     continue
 
                 verdict = analysis.get("verdict", "SKIP")
-                logger.info(f"AI verdict: {verdict} — {title[:80]}")
+                logger.info(f"AI verdict: {verdict} — {title[:90]}")
 
-                if verdict in {"SKIP", "WEAK"}:
+                if verdict not in SEND_VERDICTS:
                     continue
 
                 msg = format_message(entry, analysis, source["name"])
                 await bot.send_message(
                     chat_id=TELEGRAM_CHAT_ID,
                     text=msg,
-                    parse_mode=ParseMode.MARKDOWN,
                     disable_web_page_preview=True,
                 )
                 sent_count += 1
@@ -318,7 +332,7 @@ async def check_feeds() -> None:
 
     logger.info(
         f"Done. Local passed: {local_pass_count}. Local skipped: {local_skip_count}. "
-        f"AI analyzed: {ai_count}. Sent: {sent_count}. Seen total: {len(updated_seen)}."
+        f"AI analyzed: {ai_count}. Sent: {sent_count}. Seen total this run: {len(updated_seen)}."
     )
 
 
