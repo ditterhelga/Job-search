@@ -59,26 +59,26 @@ async def main() -> None:
             stats["already_seen"] += 1
             continue
 
-     stats["new_after_history"] += 1
-decision = local_filter(job)
+        stats["new_after_history"] += 1
+        decision = local_filter(job)
 
-if not decision.should_analyze:
-    stats["local_skipped"] += 1
-    storage.mark_seen(job, "local_skip", {"reason": decision.reason})
+        if not decision.should_analyze:
+            stats["local_skipped"] += 1
+            storage.mark_seen(job, "local_skip", {"reason": decision.reason})
 
-    logger.info("Local skip: %s — %s", job.title[:90], decision.reason)
+            logger.info("Local skip: %s — %s", job.title[:90], decision.reason)
 
-    if stats["local_skipped"] <= 80:
-        logger.info(
-            "DEBUG local skip #%s | source=%s | title=%s | reason=%s | url=%s",
-            stats["local_skipped"],
-            job.source,
-            job.title[:120],
-            decision.reason,
-            job.url,
-        )
+            if stats["local_skipped"] <= 80:
+                logger.info(
+                    "DEBUG local skip #%s | source=%s | title=%s | reason=%s | url=%s",
+                    stats["local_skipped"],
+                    job.source,
+                    job.title[:120],
+                    decision.reason,
+                    job.url,
+                )
 
-    continue
+            continue
 
         stats["local_passed"] += 1
         candidates.append((decision.score, job))
