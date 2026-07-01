@@ -1,0 +1,25 @@
+{
+  "greenhouse": [
+    {"company": "Miro", "slug": "miro"},
+    {"company": "GitLab", "slug": "gitlab"},
+    {"company": "Mollie", "slug": "mollie"},
+    {"company": "Booking", "slug": "bookingcom"},
+    {"company": "Wise", "slug": "wise"},
+    {"company": "Remote", "slug": "remotecom"},
+    {"company": "Canva", "slug": "canva"}
+  ],
+  "lever": [
+    {"company": "Automattic", "slug": "automattic"},
+    {"company": "Atlassian", "slug": "atlassian"},
+    {"company": "Typeform", "slug": "typeform"},
+    {"company": "Hotjar", "slug": "hotjar"},
+    {"company": "Intercom", "slug": "intercom"}
+  ],
+  "ashby": [
+    {"company": "Linear", "slug": "linear"},
+    {"company": "Notion", "slug": "notion"},
+    {"company": "Deel", "slug": "deel"},
+    {"company": "Personio", "slug": "personio"},
+    {"company": "Factorial", "slug": "factorial"}
+  ]
+}
