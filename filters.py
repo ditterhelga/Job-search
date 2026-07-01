@@ -6,6 +6,7 @@ from typing import List, Optional
 from models import Job, LocalDecision
 
 
+# Hard rejects before Claude. Keep these strict.
 TITLE_HARD_SKIP = [
     r"\bintern\b", r"\binternship\b", r"\bgraduate\b", r"\bstudent\b", r"\bjunior\b",
     r"\blead\b", r"\bstaff\b", r"\bprincipal\b", r"\bhead\b", r"\bmanager\b", r"\bdirector\b",
@@ -23,17 +24,49 @@ TEXT_HARD_SKIP = [
     r"\brelocation required\b",
 ]
 
+# Active Search: broad enough to catch realistic Product/UX roles.
 RELEVANT_TITLE = [
     r"\bproduct designer\b",
-    r"\bsenior product designer\b",
+    r"\bproduct design\b",
     r"\bux designer\b",
-    r"\bsenior ux designer\b",
-    r"\bux/ui designer\b",
+    r"\bux design\b",
+    r"\buser experience designer\b",
+    r"\buser experience design\b",
     r"\bui/ux designer\b",
+    r"\bux/ui designer\b",
     r"\binteraction designer\b",
     r"\bdigital product designer\b",
     r"\bexperience designer\b",
+    r"\bservice designer\b",
+    r"\bdesigner, product\b",
+    r"\bdesigner \(product\)\b",
     r"\bproduct design(er)? ii\b",
+]
+
+# Fallback: titles that are vague but may be valid if the description is clearly product/UX.
+BROAD_TITLE_HINTS = [
+    r"\bdesigner\b",
+    r"\bdesign consultant\b",
+]
+
+PRODUCT_CONTEXT = [
+    r"\bproduct\b",
+    r"\bux\b",
+    r"\buser experience\b",
+    r"\buser research\b",
+    r"\busability\b",
+    r"\bprototype\b",
+    r"\bprototyping\b",
+    r"\bfigma\b",
+    r"\bdesign system\b",
+    r"\bwireframe\b",
+    r"\bjourney\b",
+    r"\bflows?\b",
+    r"\bsoftware\b",
+    r"\bsaas\b",
+    r"\bplatform\b",
+    r"\bapp\b",
+    r"\bdashboard\b",
 ]
 
 DOMAIN_BOOST = [
@@ -85,27 +118,63 @@ def local_filter(job: Job) -> LocalDecision:
     if text_skip:
         return LocalDecision(False, f"text hard skip: {text_skip}", 0)
 
-    if not _match_any(title, RELEVANT_TITLE):
-        return LocalDecision(False, "not a Product/UX Designer title", 0)
+    relevant_title = _match_any(title, RELEVANT_TITLE)
 
-    # Outside NL, hybrid/on-site is not acceptable unless the text also explicitly says remote.
-    has_nl = any(w in text for w in ["netherlands", "amsterdam", "utrecht", "rotterdam", "haarlem", "hoofddorp", "hilversum", "den haag", "the hague"])
+    # If the title is just "Designer" or similarly broad, only pass it when the
+    # description clearly points to product/UX software work.
+    if not relevant_title:
+        broad_title = _match_any(title, BROAD_TITLE_HINTS)
+        product_context_count = _count(text, PRODUCT_CONTEXT)
+        if broad_title and product_context_count >= 3:
+            relevant_title = broad_title
+        else:
+            return LocalDecision(False, "not a Product/UX Designer title", 0)
+
+    # Outside NL, hybrid/on-site is not acceptable unless the text explicitly says remote.
+    has_nl = any(
+        w in text
+        for w in [
+            "netherlands",
+            "amsterdam",
+            "utrecht",
+            "rotterdam",
+            "haarlem",
+            "hoofddorp",
+            "hilversum",
+            "den haag",
+            "the hague",
+        ]
+    )
     has_outside_country = any(country in text for country in OUTSIDE_NL_COUNTRIES)
-    has_remote = "remote" in text or "work from anywhere" in text or "worldwide" in text or "emea" in text or "europe" in text
+    has_remote = (
+        "remote" in text
+        or "work from anywhere" in text
+        or "worldwide" in text
+        or "emea" in text
+        or "europe" in text
+        or "eu" in text
+    )
     if has_outside_country and not has_nl and _match_any(text, NEGATIVE_LOCATION_OUTSIDE_NL) and not has_remote:
         return LocalDecision(False, "hybrid/on-site outside Netherlands", 0)
 
-    score = 10
+    # Active Search scoring: role match matters most. Domain and location boost,
+    # but they are no longer required.
+    score = 20
+    score += _count(text, PRODUCT_CONTEXT)
     score += _count(text, DOMAIN_BOOST) * 2
     score += _count(text, LOCATION_BOOST) * 2
 
     if "senior" in title:
         score += 3
-    if "product designer" in title:
+    if "product designer" in title or "product design" in title:
+        score += 6
+    if "ux designer" in title or "user experience" in title:
+        score += 5
+    if "ui/ux" in title or "ux/ui" in title:
         score += 4
-    if "ux designer" in title:
-        score += 3
+    if "service designer" in title:
+        score += 2
     if job.source.lower() in {"greenhouse", "lever", "ashby"}:
         score += 3
 
-    return LocalDecision(True, "passed local filter", score)
+    return LocalDecision(True, "passed active-search local filter", score)
