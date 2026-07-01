@@ -32,7 +32,14 @@ def save_json(path: Path, data) -> None:
 
 class Storage:
     def __init__(self):
-        self.seen: Dict[str, Any] = load_json(SEEN_JOBS_FILE, {})
+        raw_seen: Dict[str, Any] = load_json(SEEN_JOBS_FILE, {})
+        # Important: old versions stored local_skip jobs as "seen".
+        # Ignore them so changing filters can re-test those jobs.
+        self.seen: Dict[str, Any] = {
+            job_id: record
+            for job_id, record in raw_seen.items()
+            if record.get("status") != "local_skip"
+        }
         self.feedback: Dict[str, Any] = load_json(FEEDBACK_FILE, {})
         self.telegram_offset: Dict[str, Any] = load_json(TELEGRAM_OFFSET_FILE, {"offset": 0})
 
@@ -40,6 +47,10 @@ class Storage:
         return job.id in self.seen
 
     def mark_seen(self, job: Job, status: str, details: Dict[str, Any] | None = None) -> None:
+        # Never persist local skips. Local filtering is intentionally adjustable.
+        if status == "local_skip":
+            return
+
         now = utc_now()
         old = self.seen.get(job.id, {})
         self.seen[job.id] = {
