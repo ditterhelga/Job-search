@@ -66,13 +66,37 @@ def safe_text(value: Any) -> str:
     return normalize_text(str(value))
 
 
-def _company_from_title(title: str) -> str:
+def _company_from_title(title: str, url: str = "") -> str:
     # RSS feeds use inconsistent title formats. Keep this conservative.
     for sep in [" at ", " @ ", " – ", " - "]:
         if sep in title:
             parts = title.split(sep)
             if len(parts) >= 2:
-                return normalize_text(parts[-1])[:80]
+                company = normalize_text(parts[-1])[:80]
+                if company:
+                    return company
+
+    # RemoteOK often has URLs like:
+    # /remote-jobs/remote-product-designer-sharebite-1131049
+    # Extract the company from the slug when title does not include it.
+    if "remoteok.com" in url.lower():
+        slug = url.rstrip("/").split("/")[-1].lower()
+        for prefix in [
+            "remote-senior-product-designer-",
+            "remote-product-designer-",
+            "remote-ux-designer-",
+            "remote-ui-ux-designer-",
+            "remote-ux-ui-designer-",
+        ]:
+            if slug.startswith(prefix):
+                rest = slug[len(prefix):]
+                parts = rest.split("-")
+                if parts and parts[-1].isdigit():
+                    parts = parts[:-1]
+                company = " ".join(parts).strip()
+                if company:
+                    return company.title()
+
     return "Unknown"
 
 
@@ -98,7 +122,7 @@ async def fetch_rss_jobs() -> List[Job]:
                     Job(
                         source=source["name"],
                         title=title,
-                        company=_company_from_title(title),
+                        company=_company_from_title(title, safe_text(entry.get("link", ""))),
                         url=safe_text(entry.get("link", "")),
                         description=safe_text(summary),
                         location=safe_text(location),
